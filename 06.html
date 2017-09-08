@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#num_warp{
+				position: relative;
+				left: -50px;
+				background: yellowgreen;
+			}
+			ul li{
+				/*position: absolute;*/
+				margin: 0;
+				float: left;
+				width: 30px;height: 30px;
+				background: hotpink;
+				margin-left: 10px;
+				text-align: center;
+				line-height: 30px;
+				font-family: "微软雅黑";
+				list-style: none;
+			}#find{margin-top: 10px;}
+		</style>
+	</head>
+	<body>
+		<!--<input type="text" id="mytext" value="" />-->
+		<textarea id="mytext" rows="" cols=""></textarea><br />
+		<input type="button" id="left-in" value="左侧入" />
+		<input type="button" id="right-in" value="右侧入" />
+		<input type="button" id="left-out" value="左侧出" />
+		<input type="button" id="right-out" value="右侧出" /><br />
+		<input type="text" id="find" value="查询" />
+		<input type="button" id="findit" value="查询" />
+		<ul id="num_warp">
+			
+		</ul>
+		<script type="text/javascript">
+			var flag=false;
+		   var  leftIn=document.getElementById('left-in'),
+				rightIn=document.getElementById('right-in'),
+				leftOut=document.getElementById('left-out'),
+				rightOut=document.getElementById('right-out'),
+				numList=document.getElementById('num_warp'),
+				find=document.getElementById('find'),
+				findit=document.getElementById('findit');
+				rightIn.onclick=function(){
+					plus();
+				}
+				leftIn.onclick=function(){
+					plus(1);
+				}
+//				rightIn.addEventListener('click',numin(1));
+//				leftIn.addEventListener('click',numin());
+				leftOut.addEventListener('click',function(){
+					numList.removeChild(numList.childNodes[0]);
+				});
+				rightOut.addEventListener('click',function(){
+					numList.removeChild(numList.childNodes[numList.childNodes.length-1]);
+				});
+				findit.addEventListener('click',function(){
+//					alert(numList.childNodes.length);
+					var findtext=find.value;
+					var chids=numList.childNodes;
+					for(var i=0;i<chids.length-1;i++){
+//						alert(chids[i].childNodes[0].nodeValue	);
+						if(chids[i].childNodes[0].nodeValue==findtext){
+							chids[i].style.backgroundColor="#9ACD32";
+						}
+					}
+				})
+				/*
+				 * function numin(u){
+					flag=false;
+//					debugger;
+					var num=document.getElementById('mytext');
+					vertify(num.value);
+					if(flag){
+					var lis=document.createElement('li');
+					lis.innerHTML=num.value;
+					if(u){
+					numList.insertBefore(lis,numList.firstChild);
+					}
+					else{
+					numList.appendChild(lis);	
+					}
+					num.value="";
+					num.focus();
+					}
+				}
+				 */
+				
+				//验证
+				/*
+				 * function vertify(str){
+					if(str==''){
+						alert("请输入要插入的值");
+					}else if(isNaN(str)){
+						alert("请输入数字");
+					}else if(Number(str)<0||Number(str)>99){
+						alert("请输入100以内的整数");
+					}else{
+						flag=true;
+					}
+				}
+				 */
+				
+				function plus(u){
+					flag=false;
+					var x=document.getElementById('mytext');
+					xs=x.value;
+					var ss=xs.split(/[,，.。、\s\n]/);//拆分文本框内容
+					if(xs==""){
+						alert("请输入值");
+					}else{
+						flag=true;
+					}
+					if(flag){
+					for(var i=0;i<ss.length;i++){
+							var lis=document.createElement('li');
+							lis.innerHTML=ss[i];
+							if(u){
+								numList.insertBefore(lis,numList.firstChild);
+							}
+							else{
+								numList.appendChild(lis);
+							}
+							
+						}
+					}
+					x.value='';
+					x.focus();
+					
+				}
+				
+			 
+		</script>
+	</body>
+	
+</html>

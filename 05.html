@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			#num_warp{
+				position: relative;
+				left: -50px;
+				display: flex;
+				height: 200px;
+				align-items: flex-end;
+			}
+			ul li{
+				/*position: absolute;*/
+				margin-right: 2px;
+				margin-top: 5px;
+				float: left;
+				margin-bottom: 0;
+				width: 30px;
+				/*height: 30px;*/
+				background: hotpink;
+				margin-left: 10px;
+				text-align: center;
+				line-height: 30px;
+				font-size: 0;
+				list-style: none;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" id="mytext" value="" />
+		<input type="button" id="left-in" value="左侧入" />
+		<input type="button" id="right-in" value="右侧入" />
+		<input type="button" id="left-out" value="左侧出" />
+		<input type="button" id="right-out" value="右侧出" />
+		<input type="button" id="btns" value="排序" />
+		<ul id="num_warp">
+			
+		</ul>
+		<br />
+		
+		<script type="text/javascript">
+			var flag=false,x=0;
+			var myarr=[];
+		   var  leftIn=document.getElementById('left-in'),
+				rightIn=document.getElementById('right-in'),
+				leftOut=document.getElementById('left-out'),
+				rightOut=document.getElementById('right-out'),
+				numList=document.getElementById('num_warp'),
+				btns=document.getElementById('btns');
+				btns.addEventListener('click',function(){//排序
+					numList.innerHTML="";
+					bubbleSort(myarr);
+					var items=document.createDocumentFragment();
+					for(var i=0;i<myarr.length;i++){
+					var myli=document.createElement('li');
+					myli.innerHTML=myarr[i];
+					myli.style.height=myarr[i]+'px';
+					items.appendChild(myli);
+					}
+					numList.appendChild(items);
+				})
+				rightIn.onclick=function(){
+					
+					numin();
+				}
+				leftIn.onclick=function(){
+					numin(1);
+				}
+				leftOut.addEventListener('click',function(){
+					myarr.shift(document.getElementById('mytext').value);
+					numList.removeChild(numList.childNodes[0]);
+					x--;
+				});
+				rightOut.addEventListener('click',function(){
+					myarr.pop(document.getElementById('mytext').value);
+					numList.removeChild(numList.childNodes[numList.childNodes.length-1]);
+					x--;
+				});
+				function numin(u){
+					while(x>60){
+					alert("已达最大值");
+					return false;
+				}
+					flag=false;
+//					debugger;
+					var num=document.getElementById('mytext');
+					vertify(num.value);
+					if(flag){
+					var lis=document.createElement('li');
+					lis.innerHTML=num.value;
+					lis.style.height=num.value+'px';
+					if(u){
+						myarr.unshift(num.value);
+					numList.insertBefore(lis,numList.firstChild);
+					x++;
+					}
+					else{
+						myarr.push(num.value);
+					numList.appendChild(lis);	
+					x++;
+					}
+					num.value="";
+					num.focus();
+					}
+				}
+				//验证
+				function vertify(str){
+					if(str==''){
+						alert("请输入要插入的值");
+					}else if(isNaN(str)){
+						alert("请输入数字");
+					}else if(Number(str)<10||Number(str)>99){
+						alert("请输入10-99以内的整数");
+					}else{
+						flag=true;
+					}
+				}
+				
+				//冒泡排序
+				function swap(items,firstIndex,SecondIndex){
+					var temp=items[firstIndex];
+					items[firstIndex]=items[SecondIndex];
+					items[SecondIndex]=temp;
+				}
+			 function bubbleSort(items){
+			 	var len=items.length;
+			 	var i,j,stop;
+			 	for(var i=0;i<len;i++){
+			 		for(var j=0,stop=len-i;j<stop;j++){
+			 			if(items[j]>items[j+1]){
+			 				swap(items,j,j+1);
+			 			}
+			 		}
+			 	}
+			 }
+		</script>
+	</body>
+</html>

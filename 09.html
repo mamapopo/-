@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style type="text/css">
+		#origin{
+			height: 200px;
+			width: 800px;
+			margin:100px auto;
+		}
+		.box{
+			height: 70%;
+			width: 44%;
+			border:2px solid #89afc1;
+			display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 5px;
+            background: #FFF;
+		}
+		.btn{
+			text-align: center;
+		}
+		button{
+			height: 40px;
+			width: 100px;
+			margin:20px;
+			border:none;
+			border-radius: 3px;
+			background:#89afc1;
+			color: #FFF;
+		}
+	</style>
+</head>
+<body>
+		<div id="origin" class="box">0
+		<div class="box" >1
+			<div class="box">2
+				<div class="box">3</div>
+				<div class="box">4</div>
+			</div>
+			<div class="box">5
+				<div class="box">6</div>
+				<div class="box">7</div>
+			</div>
+		</div>
+		<div class="box">8
+			<div class="box">9
+				<div class="box">10</div>
+			
+			</div>
+			<div class="box">11
+				<div class="box">12</div>
+				<div class="box">13</div>
+				<div class="box">12</div>
+			</div>
+		</div>
+	</div>
+		
+		<input class="btn" type="text" value="serch" id="myserch"/><button id="DLR">查找</button>
+		<button id="del">删除</button>
+		<input type="text" id="insert" value="" />
+		<button id="insertdiv">插入</button>
+<script type="text/javascript">
+//前序
+function DLR(node){
+	if(node!==null){
+		arr.push(node);
+		for(var i=0;i<node.children.length;i++){
+			DLR(node.children[i]);
+		}
+	}
+}
+//阻止点击元素触发父元素
+function stopPop(e){
+	if(e){
+		e.stopPropagation();非IE
+	}else{
+		window.event.cancelBubble=true;//IE阻止冒泡方法
+	}
+}
+
+//遍历数组改变背景
+function show(){
+	var i=0;
+	var findit=false;
+	var mytext=document.getElementById('myserch').value;
+	var timer=setInterval(function(){
+		if(i<arr.length){
+			var ele=arr[i];
+//			console.log(ele.childNodes[0].nodeValue);
+//			console.log(mytext);
+			ele.style.background='hotpink';
+			if(ele.childNodes[0].nodeValue==mytext){
+				ele.style.background='yellow';
+				i++;
+				findit=true;
+				return false;
+			}
+			
+			setTimeout(function() {
+				ele.style.background='white';
+			}, 500);
+			i++;
+		}else{
+			
+			clearInterval(timer);
+			setTimeout(function(){
+				if(findit==false){
+					alert("未找到指定内容");
+				}
+			},100)
+		}
+	},500);
+	
+}
+function reset(){
+	for(var i=0;i<divs.length;i++){
+//		debugger;
+		divs[i].style.background='white';
+	}
+}
+var select;
+var arr=new Array();
+var origin=document.getElementById("origin");
+document.getElementById('DLR').addEventListener("click",function(){
+	arr=[];
+	reset();
+	DLR(origin);
+//	debugger;
+	show();
+//	debugger;
+});
+var divs=document.getElementsByTagName("div");
+function divclick(){
+
+for(var n=0;n<divs.length;n++){
+	divs[n].onclick=function(){
+		reset();
+		select=this;
+		this.style.background="red";
+		stopPop();
+	}
+}	
+}
+divclick();
+var del=document.getElementById('del');
+del.addEventListener('click',function(){
+//	alert(select.childNodes[0].nodeValue);
+//  var x=select.childNodes[0];
+//  x.parentNode.removeChild(x);
+	select.parentNode.removeChild(select);
+})
+var toinsert=document.getElementById('insertdiv');
+toinsert.addEventListener('click',function(){
+	var txt=document.getElementById('insert').value;
+	var dom=document.createElement('div');
+	dom.innerHTML=txt;
+	dom.setAttribute('class','box');
+	select.appendChild(dom);
+	divs=document.getElementsByTagName("div");
+	divclick();
+})
+</script>
+</body>
+</html>
